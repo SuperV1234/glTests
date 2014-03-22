@@ -28,8 +28,8 @@ ssvgl::ShaderSource fragmentShaderSource{R"(
 
 	void main()
 	{
-		float lerpValue = gl_FragCoord.y / 500.0f;
-		outFSColor = mix(vec4(inFSColor, 1.0f), vec4(0.2f, 0.2f, 0.2f, 1.0f), lerpValue * sin(gl_FragCoord.x / 15.f));
+		float lerpValue = gl_FragCoord.y / 500.f;
+		outFSColor = mix(vec4(inFSColor, 1.f), vec4(0.2f, 0.2f, 0.2f, 1.f), lerpValue * sin(gl_FragCoord.x / 15.f));
 	}
 )"};
 
@@ -43,12 +43,12 @@ int main()
 
 	GLfloat vertices[]
 	{
-		0.0f, 0.5f,
+		0.f, 0.5f,
 		0.5f, -0.5f,
 		-0.5f, -0.5f,
 
 		0.1f, 0.5f, 1.f,
-		0.8f, 1.0f, 0.3f,
+		0.8f, 1.f, 0.3f,
 		0.5f, 0.5f, 0.1f
 	};
 	ssvgl::VertexBufferObject vbo{vertices};
@@ -78,7 +78,7 @@ int main()
 		glfwPollEvents();
 		if(glfwGetKey(window.getGLFWWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS) window.close();
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.f, 0.f, 0.f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glDrawArrays(GL_TRIANGLES, 0, 3);
