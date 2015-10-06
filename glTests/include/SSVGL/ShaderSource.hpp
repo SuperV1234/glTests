@@ -9,16 +9,19 @@
 
 namespace ssvgl
 {
-	class ShaderSource
-	{
-		private:
-			std::string sourceStr;
-			const char* sourceData;
+    class ShaderSource
+    {
+    private:
+        std::string sourceStr;
+        const char* sourceData;
 
-		public:
-			inline ShaderSource(std::string mStr) : sourceStr{std::move(mStr)}, sourceData{sourceStr.c_str()} { }
-			inline const char** getSourceData() noexcept { return &sourceData; }
-	};
+    public:
+        inline ShaderSource(std::string mStr)
+            : sourceStr{std::move(mStr)}, sourceData{sourceStr.c_str()}
+        {
+        }
+        inline const char** getSourceData() noexcept { return &sourceData; }
+    };
 }
 
 #endif

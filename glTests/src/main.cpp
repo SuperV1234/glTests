@@ -35,53 +35,50 @@ ssvgl::ShaderSource fragmentShaderSource{R"(
 
 int main()
 {
-	ssvgl::Window window{800, 600, "ssvgl tests", false};
+    ssvgl::Window window{800, 600, "ssvgl tests", false};
 
-	ssvgl::Shader vertexShader{ssvgl::ShaderType::Vertex, vertexShaderSource};
-	ssvgl::Shader fragmentShader{ssvgl::ShaderType::Fragment, fragmentShaderSource};
-	ssvgl::Program program{vertexShader, fragmentShader};
+    ssvgl::Shader vertexShader{ssvgl::ShaderType::Vertex, vertexShaderSource};
+    ssvgl::Shader fragmentShader{
+        ssvgl::ShaderType::Fragment, fragmentShaderSource};
+    ssvgl::Program program{vertexShader, fragmentShader};
 
-	GLfloat vertices[]
-	{
-		0.f, 0.5f,
-		0.5f, -0.5f,
-		-0.5f, -0.5f,
+    GLfloat vertices[]{0.f, 0.5f, 0.5f, -0.5f, -0.5f, -0.5f,
 
-		0.1f, 0.5f, 1.f,
-		0.8f, 1.f, 0.3f,
-		0.5f, 0.5f, 0.1f
-	};
-	ssvgl::VertexBufferObject vbo{vertices};
+        0.1f, 0.5f, 1.f, 0.8f, 1.f, 0.3f, 0.5f, 0.5f, 0.1f};
+    ssvgl::VertexBufferObject vbo{vertices};
 
 
 
-	/*GLuint ebo;
-	glGenBuffers(1, &ebo);
+    /*GLuint ebo;
+    glGenBuffers(1, &ebo);
 
-	GLuint elements[]{
-		0, 1, 2,
-		2, 3, 0
-	};
+    GLuint elements[]{
+        0, 1, 2,
+        2, 3, 0
+    };
 !glfwWindowShouldClose(window)
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);*/
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements,
+GL_STATIC_DRAW);*/
 
 
 
+    ssvgl::VertexArrayObject vao;
+    vao.bindAttribute(program.getAttribute("inVSPosition"), vbo,
+        ssvgl::DataType::Float, 2, 0, 0);
+    vao.bindAttribute(program.getAttribute("inVSColor"), vbo,
+        ssvgl::DataType::Float, 3, 0, 3 * sizeof(GLfloat));
 
-	ssvgl::VertexArrayObject vao;
-	vao.bindAttribute(program.getAttribute("inVSPosition"), vbo, ssvgl::DataType::Float, 2, 0, 0);
-	vao.bindAttribute(program.getAttribute("inVSColor"), vbo, ssvgl::DataType::Float, 3, 0, 3 * sizeof(GLfloat));
+    while(!window.shouldClose())
+    {
+        glfwPollEvents();
+        if(glfwGetKey(window.getGLFWWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS)
+            window.close();
 
-	while(!window.shouldClose())
-	{
-		glfwPollEvents();
-		if(glfwGetKey(window.getGLFWWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS) window.close();
+        glClearColor(0.f, 0.f, 0.f, 1.f);
+        glClear(GL_COLOR_BUFFER_BIT);
 
-		glClearColor(0.f, 0.f, 0.f, 1.f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		window.display();
-	}
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+        window.display();
+    }
 }
